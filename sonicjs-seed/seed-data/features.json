@@ -1,0 +1,17 @@
+[
+  {
+    "title": "Roasting Our Own Coffee",
+    "description": "We source and roast our own single-origin beans right here, delivering rich and unique house blends. Every cup tells a story from farm to table.",
+    "sortOrder": 1
+  },
+  {
+    "title": "Mouth Watering Brunch",
+    "description": "From our famous Bohemian Breakfast to Granny's Turkish Eggs, our chef crafts brunch dishes that are as beautiful as the art on our walls.",
+    "sortOrder": 2
+  },
+  {
+    "title": "Taste & History",
+    "description": "A curated collection of original art adorns every wall. Sip your espresso surrounded by Vancouver's most vibrant gallery cafe experience.",
+    "sortOrder": 3
+  }
+]

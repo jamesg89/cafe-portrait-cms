@@ -1,0 +1,20 @@
+[
+  {
+    "slug": "home",
+    "title": "Cafe Portrait — Bohemian Coffee House & Art Space | Vancouver",
+    "heroSubtitle": "Something to eat and drink for every mood, and an art space to leave you inspired",
+    "chefsNote": null
+  },
+  {
+    "slug": "menu",
+    "title": "Menu — Cafe Portrait | Vancouver",
+    "heroSubtitle": "Fresh, locally sourced, and crafted with love",
+    "chefsNote": "All our dishes are prepared fresh to order. We're happy to accommodate dietary restrictions — just let your server know. Brunch is served all day, and our After 4 menu is available from 4:00 PM onwards."
+  },
+  {
+    "slug": "contact",
+    "title": "Contact — Cafe Portrait | Vancouver",
+    "heroSubtitle": "Come Visit Us!",
+    "chefsNote": null
+  }
+]

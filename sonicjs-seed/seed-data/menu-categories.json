@@ -1,0 +1,6 @@
+[
+  { "id": "cat-coffee", "name": "Coffee & Tea", "type": "drink", "sortOrder": 1 },
+  { "id": "cat-iced", "name": "Iced Drinks", "type": "drink", "sortOrder": 2 },
+  { "id": "cat-cocktails", "name": "Cocktails, Wine & More", "type": "drink", "sortOrder": 3 },
+  { "id": "cat-food", "name": "The Food", "type": "food", "sortOrder": 1 }
+]
