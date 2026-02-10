@@ -1,0 +1,32 @@
+name = "cafe-portrait-cms"
+main = "src/index.ts"
+compatibility_date = "2024-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+# Cloudflare Workers settings
+workers_dev = true
+
+# D1 Database
+[[d1_databases]]
+binding = "DB"
+database_name = "cafe-portrait-cms"
+database_id = "1202e4b8-ded3-49f9-949f-98dd283c4662"
+migrations_dir = "./node_modules/@sonicjs-cms/core/migrations"
+
+# R2 Bucket for media storage
+[[r2_buckets]]
+binding = "BUCKET"
+bucket_name = "cafe-portrait-media"
+
+# Environment variables
+[vars]
+ENVIRONMENT = "development"
+
+# Production environment
+[env.production]
+name = "sonicjs-app-production"
+vars = { ENVIRONMENT = "production" }
+
+# Observability
+[observability]
+enabled = true
