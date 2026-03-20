@@ -1,14 +1,15 @@
 import type { CollectionConfig } from '@sonicjs-cms/core'
 
 export default {
-  name: 'gallery-items',
-  displayName: 'Gallery Items',
-  description: 'Gallery tile labels per page',
+  name: 'gallery',
+  displayName: 'Gallery',
+  description: 'Shared image gallery, filtered by page field',
 
   schema: {
     type: 'object',
     properties: {
-      label: { type: 'string', title: 'Label', required: true },
+      image:     { type: 'media',  title: 'Image (empty = gradient placeholder)' },
+      label:     { type: 'string', title: 'Label' },
       page: {
         type: 'select',
         title: 'Page',
@@ -18,7 +19,7 @@ export default {
       },
       sortOrder: { type: 'number', title: 'Sort Order', required: true },
     },
-    required: ['label', 'page', 'sortOrder']
+    required: ['page', 'sortOrder'],
   },
 
   listFields: ['label', 'page', 'sortOrder'],

@@ -8,13 +8,13 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      name: { type: 'string', title: 'Name', required: true },
+      name:        { type: 'string', title: 'Name', required: true },
       description: { type: 'string', title: 'Description' },
-      price: { type: 'string', title: 'Price', required: true },
-      category: { type: 'reference', title: 'Category', required: true, collection: 'menu-categories' },
-      sortOrder: { type: 'number', title: 'Sort Order', required: true },
+      price:       { type: 'string', title: 'Price (e.g. "$5.50", can be empty)' },
+      category:    { type: 'string', title: 'Category (menu-categories record id)', required: true },
+      sortOrder:   { type: 'number', title: 'Sort Order', required: true },
     },
-    required: ['name', 'price', 'category', 'sortOrder']
+    required: ['name', 'category', 'sortOrder'],
   },
 
   listFields: ['name', 'price', 'category', 'sortOrder'],

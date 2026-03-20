@@ -1,10 +1,28 @@
-import { CollectionConfig } from 'sonicjs';
+import type { CollectionConfig } from '@sonicjs-cms/core'
 
-export const menuCategories: CollectionConfig = {
-  slug: 'menu_categories',
-  fields: [
-    { name: 'name', type: 'text', required: true },
-    { name: 'type', type: 'select', options: ['drink', 'food'], required: true },
-    { name: 'sortOrder', type: 'number', required: true },
-  ],
-};
+export default {
+  name: 'menu-categories',
+  displayName: 'Menu Categories',
+  description: 'Menu category groupings',
+
+  schema: {
+    type: 'object',
+    properties: {
+      name:      { type: 'string', title: 'Name', required: true },
+      type: {
+        type: 'select',
+        title: 'Type',
+        required: true,
+        enum: ['drink', 'food'],
+        enumLabels: ['Drink', 'Food'],
+      },
+      sortOrder: { type: 'number', title: 'Sort Order', required: true },
+    },
+    required: ['name', 'type', 'sortOrder'],
+  },
+
+  listFields: ['name', 'type', 'sortOrder'],
+  searchFields: ['name'],
+  defaultSort: 'sortOrder',
+  defaultSortOrder: 'asc',
+} satisfies CollectionConfig

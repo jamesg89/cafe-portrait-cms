@@ -1,0 +1,45 @@
+import type { CollectionConfig } from '@sonicjs-cms/core'
+
+export default {
+  name: 'events-page',
+  displayName: 'Events Page',
+  description: 'All editable content for the private events page',
+  icon: 'calendar',
+
+  schema: {
+    type: 'object',
+    properties: {
+      pageTitle:               { type: 'string',   title: 'Page Title' },
+      heroSubtitle:            { type: 'string',   title: 'Hero Script Heading' },
+      heroDescription:         { type: 'string',   title: 'Hero Description' },
+      introScriptHeading:      { type: 'string',   title: 'Intro Script Heading' },
+      introHeading:            { type: 'string',   title: 'Intro Heading' },
+      introDescription:        { type: 'textarea', title: 'Intro Description' },
+      eventType1Title:         { type: 'string',   title: 'Event Type 1 Title' },
+      eventType1Description:   { type: 'textarea', title: 'Event Type 1 Description' },
+      eventType2Title:         { type: 'string',   title: 'Event Type 2 Title' },
+      eventType2Description:   { type: 'textarea', title: 'Event Type 2 Description' },
+      eventType3Title:         { type: 'string',   title: 'Event Type 3 Title' },
+      eventType3Description:   { type: 'textarea', title: 'Event Type 3 Description' },
+      offeringsScriptHeading:  { type: 'string',   title: 'Offerings Script Heading' },
+      offeringsHeading:        { type: 'string',   title: 'Offerings Heading' },
+      offering1Label:          { type: 'string',   title: 'Offering 1 Label' },
+      offering1Detail:         { type: 'string',   title: 'Offering 1 Detail' },
+      offering2Label:          { type: 'string',   title: 'Offering 2 Label' },
+      offering2Detail:         { type: 'string',   title: 'Offering 2 Detail' },
+      offering3Label:          { type: 'string',   title: 'Offering 3 Label' },
+      offering3Detail:         { type: 'string',   title: 'Offering 3 Detail' },
+      offering4Label:          { type: 'string',   title: 'Offering 4 Label' },
+      offering4Detail:         { type: 'string',   title: 'Offering 4 Detail' },
+      offering5Label:          { type: 'string',   title: 'Offering 5 Label' },
+      offering5Detail:         { type: 'string',   title: 'Offering 5 Detail' },
+      offering6Label:          { type: 'string',   title: 'Offering 6 Label' },
+      offering6Detail:         { type: 'string',   title: 'Offering 6 Detail' },
+      bookingHeading:          { type: 'string',   title: 'Booking Heading' },
+      bookingDescription:      { type: 'textarea', title: 'Booking Description' },
+    },
+  },
+
+  listFields: ['pageTitle'],
+  searchFields: ['pageTitle'],
+} satisfies CollectionConfig

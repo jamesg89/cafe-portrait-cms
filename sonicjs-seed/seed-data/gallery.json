@@ -1,0 +1,13 @@
+[
+  { "image": "", "label": "The Gallery Wall",   "page": "home", "sortOrder": 1 },
+  { "image": "", "label": "Fresh Ingredients",  "page": "home", "sortOrder": 2 },
+  { "image": "", "label": "Our Coffee",         "page": "home", "sortOrder": 3 },
+  { "image": "", "label": "Cozy Interior",      "page": "home", "sortOrder": 4 },
+  { "image": "", "label": "Brunch Favorites",   "page": "home", "sortOrder": 5 },
+  { "image": "", "label": "Bohemian Breakfast", "page": "menu", "sortOrder": 1 },
+  { "image": "", "label": "Fresh Baked",        "page": "menu", "sortOrder": 2 },
+  { "image": "", "label": "Farm to Table",      "page": "menu", "sortOrder": 3 },
+  { "image": "", "label": "Artisan Coffee",     "page": "menu", "sortOrder": 4 },
+  { "image": "", "label": "Cozy Corners",       "page": "menu", "sortOrder": 5 },
+  { "image": "", "label": "Weekend Vibes",      "page": "menu", "sortOrder": 6 }
+]
