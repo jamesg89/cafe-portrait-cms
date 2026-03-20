@@ -8,24 +8,21 @@ Instructions for the Claude agent managing the SonicJS CMS repo for this project
 
 The CMS uses a flat, content-only model. Editors can change text, link URLs, and images. They cannot change page layout, add sections, or restructure anything — those decisions live in the SvelteKit codebase.
 
-There are **10 collections** in total:
+There are **9 collections** in total:
 
-| Collection slug     | Type         | Records       |
-|---------------------|--------------|---------------|
-| `config`            | Single       | 1             |
-| `home-page`         | Single       | 1             |
-| `menu-page`         | Single       | 1             |
-| `menu-categories`   | List         | Multiple      |
-| `menu-items`        | List         | Multiple      |
-| `events-page`       | Single       | 1             |
-| `gift-cards-page`   | Single       | 1             |
-| `contact-page`      | Single       | 1             |
-| `our-story-page`    | Single       | 1             |
-| `gallery`           | List         | Multiple      |
+| Collection slug  | Type   | Records |
+|------------------|--------|---------|
+| `config`         | Single | 1       |
+| `home-page`      | Single | 1       |
+| `menu-page`      | Single | 1       |
+| `menu-data`      | Single | 1       |
+| `events-page`    | Single | 1       |
+| `gift-cards-page`| Single | 1       |
+| `contact-page`   | Single | 1       |
+| `our-story-page` | Single | 1       |
+| `gallery`        | Single | 1       |
 
-**Single** collections hold exactly one record. The frontend always reads `items[0].data` and merges it over fallback values.
-
-**List** collections hold multiple records sorted by a `sortOrder` field.
+**All collections are now singles** — each holds exactly one record. The frontend always reads `items[0].data`.
 
 The frontend fetches all content in one request: `GET /api/content?limit=500`. The collection for each item is identified by `item.collectionId` starting with `col-{slug}-`.
 
@@ -62,71 +59,75 @@ Site-wide settings used across all pages — logo, footer info, contact details,
 
 All editable content for the home page (`/`).
 
-| Field                      | Type   | Description                                        |
-|----------------------------|--------|----------------------------------------------------|
-| `pageTitle`                | text   | Browser tab title                                  |
-| `heroSubtitle`             | text   | Subtitle text in the hero section                  |
-| `heroCtaText`              | text   | Hero call-to-action button label                   |
-| `heroCtaUrl`               | text   | Hero call-to-action button URL                     |
-| `heroImage`                | image  | Hero section image (right column)                  |
-| `feature1Title`            | text   | Title of feature block 1                           |
-| `feature1Description`      | text   | Description of feature block 1                     |
-| `feature2Title`            | text   | Title of feature block 2                           |
-| `feature2Description`      | text   | Description of feature block 2                     |
-| `feature3Title`            | text   | Title of feature block 3                           |
-| `feature3Description`      | text   | Description of feature block 3                     |
-| `gallerySectionScriptHeading` | text | Script/italic heading above the gallery section  |
-| `gallerySectionHeading`    | text   | Main heading for the gallery section               |
-| `pressQuote`               | text   | Pull quote from press coverage                     |
-| `pressQuoteAttribution`    | text   | Source attribution for the press quote             |
-| `ctaScriptHeading`         | text   | Script/italic heading above the bottom CTA         |
-| `ctaHeading`               | text   | Main heading for the bottom CTA                    |
-| `ctaPrimaryButtonText`     | text   | Primary CTA button label                           |
-| `ctaPrimaryButtonUrl`      | text   | Primary CTA button URL                             |
-| `ctaSecondaryButtonText`   | text   | Secondary CTA button label                         |
-| `ctaSecondaryButtonUrl`    | text   | Secondary CTA button URL                           |
+| Field                         | Type  | Description                                        |
+|-------------------------------|-------|----------------------------------------------------|
+| `pageTitle`                   | text  | Browser tab title                                  |
+| `heroSubtitle`                | text  | Subtitle text in the hero section                  |
+| `heroCtaText`                 | text  | Hero call-to-action button label                   |
+| `heroCtaUrl`                  | text  | Hero call-to-action button URL                     |
+| `heroImage`                   | image | Hero section image (right column)                  |
+| `feature1Title`               | text  | Title of feature block 1                           |
+| `feature1Description`         | text  | Description of feature block 1                     |
+| `feature2Title`               | text  | Title of feature block 2                           |
+| `feature2Description`         | text  | Description of feature block 2                     |
+| `feature3Title`               | text  | Title of feature block 3                           |
+| `feature3Description`         | text  | Description of feature block 3                     |
+| `gallerySectionScriptHeading` | text  | Script/italic heading above the gallery section    |
+| `gallerySectionHeading`       | text  | Main heading for the gallery section               |
+| `pressQuote`                  | text  | Pull quote from press coverage                     |
+| `pressQuoteAttribution`       | text  | Source attribution for the press quote             |
+| `ctaScriptHeading`            | text  | Script/italic heading above the bottom CTA         |
+| `ctaHeading`                  | text  | Main heading for the bottom CTA                    |
+| `ctaPrimaryButtonText`        | text  | Primary CTA button label                           |
+| `ctaPrimaryButtonUrl`         | text  | Primary CTA button URL                             |
+| `ctaSecondaryButtonText`      | text  | Secondary CTA button label                         |
+| `ctaSecondaryButtonUrl`       | text  | Secondary CTA button URL                           |
 
 ---
 
 ### `menu-page`
 
-Editable text for the menu page (`/menu`). Menu items and categories are managed separately in `menu-items` and `menu-categories`.
+Editable text for the menu page (`/menu`). Menu items and categories are managed in `menu-data`.
 
-| Field                   | Type  | Description                                        |
-|-------------------------|-------|----------------------------------------------------|
-| `pageTitle`             | text  | Browser tab title                                  |
-| `heroH1`                | text  | Large H1 heading in the hero (e.g. "Menu")         |
-| `heroSubtitle`          | text  | Italic subtitle under the H1                       |
-| `drinksHeading`         | text  | Column heading for the drinks section              |
-| `foodHeading`           | text  | Column heading for the food section                |
-| `chefsNoteScriptHeading`| text  | Script heading for the chef's note card            |
-| `chefsNote`             | text  | Body text of the chef's note (empty = hidden)      |
-
----
-
-### `menu-categories`
-
-Each record is one menu category. Items are assigned to categories by `id`.
-
-| Field       | Type   | Description                                             |
-|-------------|--------|---------------------------------------------------------|
-| `name`      | text   | Display name (e.g. "Coffee & Tea")                      |
-| `type`      | select | `drink` or `food` — determines which column it appears in |
-| `sortOrder` | number | Order within the column (lower = higher on page)        |
+| Field                    | Type  | Description                                        |
+|--------------------------|-------|----------------------------------------------------|
+| `pageTitle`              | text  | Browser tab title                                  |
+| `heroH1`                 | text  | Large H1 heading in the hero (e.g. "Menu")         |
+| `heroSubtitle`           | text  | Italic subtitle under the H1                       |
+| `drinksHeading`          | text  | Column heading for the drinks section              |
+| `foodHeading`            | text  | Column heading for the food section                |
+| `chefsNoteScriptHeading` | text  | Script heading for the chef's note card            |
+| `chefsNote`              | text  | Body text of the chef's note (empty = hidden)      |
 
 ---
 
-### `menu-items`
+### `menu-data`
 
-Each record is one menu item.
+All menu categories and their items in one record. The editor adds, removes, and reorders categories and items inline — no separate records needed.
 
-| Field       | Type   | Description                                              |
-|-------------|--------|----------------------------------------------------------|
-| `name`      | text   | Item name                                                |
-| `description` | text | Short description (can be empty)                       |
-| `price`     | text   | Price string (e.g. "$5.50", can be empty)               |
-| `category`  | text   | The `id` of the parent `menu-categories` record          |
-| `sortOrder` | number | Display order within the category                        |
+**Top-level field:**
+
+| Field        | Type  | Description                              |
+|--------------|-------|------------------------------------------|
+| `categories` | array | Ordered list of menu category objects    |
+
+**Each category object:**
+
+| Field   | Type   | Description                                                  |
+|---------|--------|--------------------------------------------------------------|
+| `name`  | text   | Category display name (e.g. "Coffee & Tea")                  |
+| `type`  | select | `drink` or `food` — determines which column it appears in    |
+| `items` | array  | Ordered list of menu item objects within this category       |
+
+**Each item object (inside `items`):**
+
+| Field         | Type | Description                                    |
+|---------------|------|------------------------------------------------|
+| `name`        | text | Item name (required)                           |
+| `description` | text | Short description (can be empty)               |
+| `price`       | text | Price string (e.g. "$5.50", can be empty)      |
+
+Array order determines display order — no `sortOrder` field needed.
 
 ---
 
@@ -134,36 +135,36 @@ Each record is one menu item.
 
 All editable content for the private events page (`/events`).
 
-| Field                  | Type  | Description                                              |
-|------------------------|-------|----------------------------------------------------------|
-| `pageTitle`            | text  | Browser tab title                                        |
-| `heroSubtitle`         | text  | Script heading in the hero                               |
-| `heroDescription`      | text  | Italic description line in the hero                      |
-| `introScriptHeading`   | text  | Script heading above the intro section                   |
-| `introHeading`         | text  | Main heading of the intro section                        |
-| `introDescription`     | text  | Paragraph body of the intro section                      |
-| `eventType1Title`      | text  | Title of event type card 1                               |
-| `eventType1Description`| text  | Description of event type card 1                         |
-| `eventType2Title`      | text  | Title of event type card 2                               |
-| `eventType2Description`| text  | Description of event type card 2                         |
-| `eventType3Title`      | text  | Title of event type card 3                               |
-| `eventType3Description`| text  | Description of event type card 3                         |
-| `offeringsScriptHeading` | text | Script heading above the offerings section             |
-| `offeringsHeading`     | text  | Main heading of the offerings section                    |
-| `offering1Label`       | text  | Label for offering row 1 (e.g. "Capacity")               |
-| `offering1Detail`      | text  | Detail text for offering row 1                           |
-| `offering2Label`       | text  | Label for offering row 2                                 |
-| `offering2Detail`      | text  | Detail text for offering row 2                           |
-| `offering3Label`       | text  | Label for offering row 3                                 |
-| `offering3Detail`      | text  | Detail text for offering row 3                           |
-| `offering4Label`       | text  | Label for offering row 4                                 |
-| `offering4Detail`      | text  | Detail text for offering row 4                           |
-| `offering5Label`       | text  | Label for offering row 5                                 |
-| `offering5Detail`      | text  | Detail text for offering row 5                           |
-| `offering6Label`       | text  | Label for offering row 6                                 |
-| `offering6Detail`      | text  | Detail text for offering row 6                           |
-| `bookingHeading`       | text  | Heading above the booking/enquiry form                   |
-| `bookingDescription`   | text  | Description paragraph above the booking form             |
+| Field                    | Type  | Description                                              |
+|--------------------------|-------|----------------------------------------------------------|
+| `pageTitle`              | text  | Browser tab title                                        |
+| `heroSubtitle`           | text  | Script heading in the hero                               |
+| `heroDescription`        | text  | Italic description line in the hero                      |
+| `introScriptHeading`     | text  | Script heading above the intro section                   |
+| `introHeading`           | text  | Main heading of the intro section                        |
+| `introDescription`       | text  | Paragraph body of the intro section                      |
+| `eventType1Title`        | text  | Title of event type card 1                               |
+| `eventType1Description`  | text  | Description of event type card 1                         |
+| `eventType2Title`        | text  | Title of event type card 2                               |
+| `eventType2Description`  | text  | Description of event type card 2                         |
+| `eventType3Title`        | text  | Title of event type card 3                               |
+| `eventType3Description`  | text  | Description of event type card 3                         |
+| `offeringsScriptHeading` | text  | Script heading above the offerings section               |
+| `offeringsHeading`       | text  | Main heading of the offerings section                    |
+| `offering1Label`         | text  | Label for offering row 1 (e.g. "Capacity")               |
+| `offering1Detail`        | text  | Detail text for offering row 1                           |
+| `offering2Label`         | text  | Label for offering row 2                                 |
+| `offering2Detail`        | text  | Detail text for offering row 2                           |
+| `offering3Label`         | text  | Label for offering row 3                                 |
+| `offering3Detail`        | text  | Detail text for offering row 3                           |
+| `offering4Label`         | text  | Label for offering row 4                                 |
+| `offering4Detail`        | text  | Detail text for offering row 4                           |
+| `offering5Label`         | text  | Label for offering row 5                                 |
+| `offering5Detail`        | text  | Detail text for offering row 5                           |
+| `offering6Label`         | text  | Label for offering row 6                                 |
+| `offering6Detail`        | text  | Detail text for offering row 6                           |
+| `bookingHeading`         | text  | Heading above the booking/enquiry form                   |
+| `bookingDescription`     | text  | Description paragraph above the booking form             |
 
 ---
 
@@ -201,17 +202,17 @@ All editable content for the gift cards page (`/gift-cards`).
 
 Editable text for the contact page (`/contact`). All contact info (address, hours, phone) lives in `config`.
 
-| Field                      | Type  | Description                                          |
-|----------------------------|-------|------------------------------------------------------|
-| `pageTitle`                | text  | Browser tab title                                    |
-| `heroSubtitle`             | text  | Script heading in the hero                           |
-| `heroPressQuote`           | text  | Pull quote in the hero (empty = hidden)              |
-| `heroPressQuoteAttribution`| text  | Source attribution for the hero press quote          |
-| `infoSectionHeading`       | text  | Heading above the info cards (e.g. "Get In Touch")   |
-| `locationCardTitle`        | text  | Title of the location card (e.g. "Our Location")     |
-| `hoursCardTitle`           | text  | Title of the hours card (e.g. "Opening Hours")       |
-| `phoneCardTitle`           | text  | Title of the phone card (e.g. "Call Us")             |
-| `formHeading`              | text  | Heading above the contact form                       |
+| Field                       | Type  | Description                                          |
+|-----------------------------|-------|------------------------------------------------------|
+| `pageTitle`                 | text  | Browser tab title                                    |
+| `heroSubtitle`              | text  | Script heading in the hero                           |
+| `heroPressQuote`            | text  | Pull quote in the hero (empty = hidden)              |
+| `heroPressQuoteAttribution` | text  | Source attribution for the hero press quote          |
+| `infoSectionHeading`        | text  | Heading above the info cards (e.g. "Get In Touch")   |
+| `locationCardTitle`         | text  | Title of the location card (e.g. "Our Location")     |
+| `hoursCardTitle`            | text  | Title of the hours card (e.g. "Opening Hours")       |
+| `phoneCardTitle`            | text  | Title of the phone card (e.g. "Call Us")             |
+| `formHeading`               | text  | Heading above the contact form                       |
 
 ---
 
@@ -219,41 +220,50 @@ Editable text for the contact page (`/contact`). All contact info (address, hour
 
 All editable content for the Our Story / about page (`/our-story`).
 
-| Field                      | Type  | Description                                          |
-|----------------------------|-------|------------------------------------------------------|
-| `heroPressQuote`           | text  | Pull quote in the hero (empty = hidden)              |
-| `heroPressQuoteAttribution`| text  | Source attribution for the hero press quote          |
-| `section1ScriptHeading`    | text  | Script/italic label above section 1                  |
-| `section1Heading`          | text  | Main heading of section 1                            |
-| `section1Para1`            | text  | First paragraph of section 1                         |
-| `section1Para2`            | text  | Second paragraph of section 1                        |
-| `section1Image`            | image | Photo for section 1 (empty = gradient placeholder)   |
-| `section2ScriptHeading`    | text  | Script/italic label above section 2                  |
-| `section2Heading`          | text  | Main heading of section 2                            |
-| `section2Para1`            | text  | First paragraph of section 2                         |
-| `section2Para2`            | text  | Second paragraph of section 2                        |
-| `section2Image`            | image | Photo for section 2 (empty = gradient placeholder)   |
-| `section3ScriptHeading`    | text  | Script/italic label above section 3                  |
-| `section3Heading`          | text  | Main heading of section 3                            |
-| `section3Para1`            | text  | First paragraph of section 3                         |
-| `section3Para2`            | text  | Second paragraph of section 3                        |
-| `section3Image`            | image | Photo for section 3 (empty = gradient placeholder)   |
-| `section3CtaText`          | text  | Text link label at the bottom of section 3           |
-| `section3CtaUrl`           | text  | URL for the section 3 text link                      |
-| `closingQuote`             | text  | Closing quote in the dark band at the bottom         |
+| Field                       | Type  | Description                                          |
+|-----------------------------|-------|------------------------------------------------------|
+| `heroPressQuote`            | text  | Pull quote in the hero (empty = hidden)              |
+| `heroPressQuoteAttribution` | text  | Source attribution for the hero press quote          |
+| `section1ScriptHeading`     | text  | Script/italic label above section 1                  |
+| `section1Heading`           | text  | Main heading of section 1                            |
+| `section1Para1`             | text  | First paragraph of section 1                         |
+| `section1Para2`             | text  | Second paragraph of section 1                        |
+| `section1Image`             | image | Photo for section 1 (empty = gradient placeholder)   |
+| `section2ScriptHeading`     | text  | Script/italic label above section 2                  |
+| `section2Heading`           | text  | Main heading of section 2                            |
+| `section2Para1`             | text  | First paragraph of section 2                         |
+| `section2Para2`             | text  | Second paragraph of section 2                        |
+| `section2Image`             | image | Photo for section 2 (empty = gradient placeholder)   |
+| `section3ScriptHeading`     | text  | Script/italic label above section 3                  |
+| `section3Heading`           | text  | Main heading of section 3                            |
+| `section3Para1`             | text  | First paragraph of section 3                         |
+| `section3Para2`             | text  | Second paragraph of section 3                        |
+| `section3Image`             | image | Photo for section 3 (empty = gradient placeholder)   |
+| `section3CtaText`           | text  | Text link label at the bottom of section 3           |
+| `section3CtaUrl`            | text  | URL for the section 3 text link                      |
+| `closingQuote`              | text  | Closing quote in the dark band at the bottom         |
 
 ---
 
 ### `gallery`
 
-Shared image gallery. Items are filtered by `page` field — the home page uses `page: 'home'`, the menu page uses `page: 'menu'`. Editors can add and delete records freely.
+One record holding all gallery images for the site. Images are split into two arrays by page — editors add and remove images inline, no separate records needed.
 
-| Field       | Type   | Description                                              |
-|-------------|--------|----------------------------------------------------------|
-| `image`     | image  | The gallery image (empty string = gradient placeholder)  |
-| `label`     | text   | Caption shown on hover                                   |
-| `page`      | select | `home` or `menu` — determines which page it appears on   |
-| `sortOrder` | number | Display order within the page (lower = earlier)          |
+**Top-level fields:**
+
+| Field        | Type  | Description                             |
+|--------------|-------|-----------------------------------------|
+| `homeImages` | array | Images shown in the home page gallery   |
+| `menuImages` | array | Images shown on the menu page           |
+
+**Each image object (in either array):**
+
+| Field   | Type  | Description                                             |
+|---------|-------|---------------------------------------------------------|
+| `image` | media | The gallery image (empty = gradient placeholder)        |
+| `label` | text  | Caption shown on hover (can be empty)                   |
+
+Array order determines display order — no `sortOrder` field needed.
 
 ---
 
@@ -267,16 +277,16 @@ item.collectionId starts with "col-{slug}-"
 
 For example, a `config` record will have `collectionId` like `col-config-abc123`.
 
-For **single collections** (`config`, `home-page`, `menu-page`, `events-page`, `gift-cards-page`, `contact-page`, `our-story-page`), the app reads `items[0].data` and merges it with hardcoded fallback values using object spread. Any field missing from the CMS record will fall back to the default — there is no requirement to populate every field.
+All collections are **singles** — the app reads `items[0].data` and merges it with hardcoded fallback values using object spread. Any field missing from the CMS record falls back to the default.
 
-For **list collections** (`menu-categories`, `menu-items`, `gallery`), all records are used. They are sorted by `sortOrder` before rendering. If no records exist in the CMS, the full fallback list is used.
+For **`gallery`** and **`menu-data`**, the embedded arrays (`homeImages`, `menuImages`, `categories`) are used directly. If the array is empty or missing, the frontend falls back to its hardcoded defaults.
 
 ---
 
 ## Notes for the SonicJS Agent
 
-- Collection slugs must match exactly: `config`, `home-page`, `menu-page`, `menu-categories`, `menu-items`, `events-page`, `gift-cards-page`, `contact-page`, `our-story-page`, `gallery`
+- Collection slugs must match exactly: `config`, `home-page`, `menu-page`, `menu-data`, `events-page`, `gift-cards-page`, `contact-page`, `our-story-page`, `gallery`
 - Field names are camelCase and must match exactly as listed above — the frontend destructures them directly by name
 - `image` fields store a URL string. An empty string (`""`) causes the frontend to render a gradient placeholder instead
-- The `menu-items` `category` field must contain the SonicJS record `id` (not a slug) of the corresponding `menu-categories` record, because the frontend matches items to categories using the record `id`
 - Do not add or rename collections or fields without coordinating a matching change in the SvelteKit codebase (`src/lib/types.ts`, `src/lib/fallback-data.ts`, and the relevant page component)
+- **Removed collections**: `menu-categories` and `menu-items` no longer exist. Their data now lives inside `menu-data.categories[].items[]`

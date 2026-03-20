@@ -3,27 +3,38 @@ import type { CollectionConfig } from '@sonicjs-cms/core'
 export default {
   name: 'gallery',
   displayName: 'Gallery',
-  description: 'Shared image gallery, filtered by page field',
+  description: 'Site image gallery — add or remove images for the home and menu pages',
+  icon: 'photo',
 
   schema: {
     type: 'object',
     properties: {
-      image:     { type: 'media',  title: 'Image (empty = gradient placeholder)' },
-      label:     { type: 'string', title: 'Label' },
-      page: {
-        type: 'select',
-        title: 'Page',
-        required: true,
-        enum: ['home', 'menu'],
-        enumLabels: ['Home', 'Menu'],
+      homeImages: {
+        type: 'array',
+        title: 'Home Page Images',
+        items: {
+          type: 'object',
+          title: 'Image',
+          properties: {
+            image: { type: 'media', title: 'Image' },
+            label: { type: 'string', title: 'Label (hover caption)' },
+          },
+        },
       },
-      sortOrder: { type: 'number', title: 'Sort Order', required: true },
+      menuImages: {
+        type: 'array',
+        title: 'Menu Page Images',
+        items: {
+          type: 'object',
+          title: 'Image',
+          properties: {
+            image: { type: 'media', title: 'Image' },
+            label: { type: 'string', title: 'Label (hover caption)' },
+          },
+        },
+      },
     },
-    required: ['page', 'sortOrder'],
   },
 
-  listFields: ['label', 'page', 'sortOrder'],
-  searchFields: ['label'],
-  defaultSort: 'sortOrder',
-  defaultSortOrder: 'asc',
+  listFields: ['homeImages', 'menuImages'],
 } satisfies CollectionConfig

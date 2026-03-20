@@ -10,8 +10,7 @@ import type { SonicJSConfig } from '@sonicjs-cms/core'
 import configCollection from './collections/config.collection'
 import homePageCollection from './collections/home-page.collection'
 import menuPageCollection from './collections/menu-page.collection'
-import menuCategoriesCollection from './collections/menu-categories.collection'
-import menuItemsCollection from './collections/menu-items.collection'
+import menuDataCollection from './collections/menu-data.collection'
 import eventsPageCollection from './collections/events-page.collection'
 import giftCardsPageCollection from './collections/gift-cards-page.collection'
 import contactPageCollection from './collections/contact-page.collection'
@@ -22,8 +21,7 @@ registerCollections([
   configCollection,
   homePageCollection,
   menuPageCollection,
-  menuCategoriesCollection,
-  menuItemsCollection,
+  menuDataCollection,
   eventsPageCollection,
   giftCardsPageCollection,
   contactPageCollection,

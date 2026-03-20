@@ -1,0 +1,62 @@
+[
+  {
+    "categories": [
+      {
+        "name": "Coffee & Tea",
+        "type": "drink",
+        "items": [
+          { "name": "Double Coffee",  "description": "Black or white", "price": "$5" },
+          { "name": "Americano",      "description": "",               "price": "$4.50" },
+          { "name": "Latte",          "description": "",               "price": "$5.50" },
+          { "name": "Lavender Latte", "description": "",               "price": "$6.50" },
+          { "name": "Cappuccino",     "description": "",               "price": "$5.50" },
+          { "name": "Mocha",          "description": "",               "price": "$6" },
+          { "name": "Hot Chocolate",  "description": "",               "price": "$5.50" },
+          { "name": "Flat White",     "description": "",               "price": "$5.50" },
+          { "name": "Matcha Latte",   "description": "",               "price": "$6" },
+          { "name": "Black Tea",      "description": "",               "price": "$4" }
+        ]
+      },
+      {
+        "name": "Iced Drinks",
+        "type": "drink",
+        "items": [
+          { "name": "Iced Tea",    "description": "", "price": "$5" },
+          { "name": "Iced Coffee", "description": "", "price": "$5.50" },
+          { "name": "Iced Latte",  "description": "", "price": "$6" },
+          { "name": "Iced Matcha", "description": "", "price": "$6.50" },
+          { "name": "Iced Mocha",  "description": "", "price": "$6.50" }
+        ]
+      },
+      {
+        "name": "Cocktails, Wine & More",
+        "type": "drink",
+        "items": [
+          { "name": "Organic Smoothies", "description": "Ask about our seasonal flavours", "price": "$9" },
+          { "name": "Mimosa",            "description": "",                                "price": "$12" },
+          { "name": "Caesar",            "description": "",                                "price": "$12" },
+          { "name": "Aperol Spritz",     "description": "",                                "price": "$14" },
+          { "name": "Peach Bellini",     "description": "",                                "price": "$13" },
+          { "name": "Wine & Beer",       "description": "Selection varies",                "price": "" }
+        ]
+      },
+      {
+        "name": "The Food",
+        "type": "food",
+        "items": [
+          { "name": "Bohemian Breakfast",            "description": "Two eggs any style, choice of bacon or sausage, hash browns, sourdough toast, grilled tomato & mixed greens",         "price": "$18" },
+          { "name": "White Baguette",                "description": "Butter, house jam, fresh fruit",                                                                                       "price": "$12" },
+          { "name": "Florentine's Omelette",         "description": "Spinach, mushroom, Swiss cheese, served with hash browns & toast",                                                     "price": "$16" },
+          { "name": "Scrambled Egg Baguette",        "description": "Soft scrambled eggs, chives, cream cheese on a toasted baguette",                                                      "price": "$14" },
+          { "name": "Minute Shakshuka",              "description": "Poached eggs in spiced tomato & pepper sauce, feta, fresh herbs, sourdough",                                           "price": "$16" },
+          { "name": "Mountain Dew",                  "description": "Smoked salmon, cream cheese, capers, red onion on a toasted bagel",                                                    "price": "$15" },
+          { "name": "Avocado on Toast",              "description": "Smashed avocado, poached eggs, chili flakes, micro greens on sourdough",                                               "price": "$15" },
+          { "name": "Granola & Omega Parfait",       "description": "House granola, Greek yogurt, seasonal berries, honey drizzle",                                                         "price": "$12" },
+          { "name": "Smashed Steak & Eggs",          "description": "Flat iron steak, two eggs any style, chimichurri, hash browns, arugula",                                               "price": "$22" },
+          { "name": "Granny's Turkish Eggs & Sausage","description": "Poached eggs over whipped yogurt, spiced butter, Turkish sausage, warm pita",                                        "price": "$17" },
+          { "name": "After 4: Steak & Mushroom Risotto","description": "Creamy arborio rice, wild mushrooms, seared steak, parmesan, truffle oil",                                         "price": "$24" }
+        ]
+      }
+    ]
+  }
+]
