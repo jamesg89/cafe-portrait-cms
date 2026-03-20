@@ -9,29 +9,39 @@ This directory contains reference collection definitions and seed data for the `
 
 ## Collections
 
-| Collection slug     | Type   | Description                                         |
-|---------------------|--------|-----------------------------------------------------|
-| `config`            | Single | Site-wide settings — logo, footer, contact, socials |
-| `home-page`         | Single | All editable content for the home page              |
-| `menu-page`         | Single | Menu page header and chef's note                    |
-| `menu-categories`   | List   | Menu category groupings (drink or food)             |
-| `menu-items`        | List   | Individual menu items with category references      |
-| `events-page`       | Single | All editable content for the private events page    |
-| `gift-cards-page`   | Single | All editable content for the gift cards page        |
-| `contact-page`      | Single | Editable text for the contact page                  |
-| `our-story-page`    | Single | All editable content for the Our Story page         |
-| `gallery`           | List   | Shared image gallery, filtered by `page` field      |
+All 9 collections are **singles** — each holds exactly one record. The frontend always reads `items[0].data`.
+
+| Collection slug   | Description                                                    |
+|-------------------|----------------------------------------------------------------|
+| `config`          | Site-wide settings — logo, footer, contact, socials            |
+| `home-page`       | All editable content for the home page                         |
+| `menu-page`       | Menu page header and chef's note                               |
+| `menu-data`       | All menu categories and items (nested inline)                  |
+| `events-page`     | All editable content for the private events page               |
+| `gift-cards-page` | All editable content for the gift cards page                   |
+| `contact-page`    | Editable text for the contact page                             |
+| `our-story-page`  | All editable content for the Our Story page                    |
+| `gallery`         | Home and menu page images (two inline arrays)                  |
 
 ## Seeding
 
-1. Ensure `menu-categories` records are created first — menu items reference categories by record `id`
-2. Use the SonicJS admin UI or API to import each JSON file from `seed-data/`
-3. For **Single** collections, import as one record; the frontend always reads `items[0].data`
-4. For **List** collections, import all array items; they are sorted by `sortOrder` before rendering
+Run from the project root:
+
+```
+node seed.mjs
+```
+
+The script logs in, then POSTs each collection's seed data as a single published record. Records that already exist (HTTP 409) are skipped automatically.
+
+## menu-data structure
+
+`menu-data` holds one record with a `categories` array. Each category has `name`, `type` (`drink` or `food`), and an `items` array. Array order determines display order — no `sortOrder` field is needed.
+
+## gallery structure
+
+`gallery` holds one record with two arrays: `homeImages` (shown on the home page) and `menuImages` (shown on the menu page). Each element has `image` (URL or empty string) and `label` (hover caption).
 
 ## Notes
 
-- The `menu-items` `category` field stores the SonicJS record `id` of the parent `menu-categories` record
 - `image` fields store a URL string; an empty string (`""`) renders a gradient placeholder on the frontend
-- The `gallery` `page` field (`home` or `menu`) determines which page the image appears on
-- Contact details (address, hours, phone) live in `config`, not in `contact-page`
+- Collection IDs are hardcoded in `seed.mjs` — run `GET /api/collections` against the deployed worker if they ever need refreshing
