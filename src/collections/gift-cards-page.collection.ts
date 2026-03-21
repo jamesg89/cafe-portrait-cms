@@ -9,6 +9,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
+      title:                      { type: 'string',   title: 'Title' },
       pageTitle:                  { type: 'string',   title: 'Page Title' },
       heroSubtitle:               { type: 'string',   title: 'Hero Script Heading' },
       heroDescription:            { type: 'string',   title: 'Hero Description' },

@@ -9,6 +9,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
+      title:                       { type: 'string',   title: 'Title' },
       heroPressQuote:              { type: 'string',   title: 'Hero Press Quote (empty = hidden)' },
       heroPressQuoteAttribution:   { type: 'string',   title: 'Hero Press Quote Attribution' },
       section1ScriptHeading:       { type: 'string',   title: 'Section 1 Script Heading' },

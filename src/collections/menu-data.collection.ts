@@ -9,6 +9,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
+      title:      { type: 'string', title: 'Title' },
       categories: {
         type: 'array',
         title: 'Categories',
