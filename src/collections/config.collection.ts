@@ -9,6 +9,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
+      logoImage:          { type: 'media',    title: 'Logo Image (overrides text logo)' },
       logoTextTop:        { type: 'string',   title: 'Logo Text Top' },
       logoTextBottom:     { type: 'string',   title: 'Logo Text Bottom' },
       siteName:           { type: 'string',   title: 'Site Name' },
