@@ -9,6 +9,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
+      title: { type: 'string', title: 'Gallery Title' },
       homeImages: {
         type: 'array',
         title: 'Home Page Images',
