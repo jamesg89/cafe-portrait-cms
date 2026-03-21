@@ -73,12 +73,14 @@ async function injectAdminPatch(c: Context, next: () => Promise<void>) {
   if (!c.req.path.startsWith('/admin')) return
   const ct = c.res.headers.get('content-type') ?? ''
   if (!ct.includes('text/html')) return
+  // Read the body — this consumes the stream, so always reconstruct the response
   const body = await c.res.text()
-  if (!body.includes('</body>')) return
-  const patched = body.replace('</body>', MEDIA_PICKER_PATCH + '</body>')
   const headers = new Headers(c.res.headers)
   headers.delete('content-length')
-  c.res = new Response(patched, { status: c.res.status, headers })
+  const out = body.includes('</body>')
+    ? body.replace('</body>', MEDIA_PICKER_PATCH + '</body>')
+    : body
+  c.res = new Response(out, { status: c.res.status, headers })
 }
 
 const config: SonicJSConfig = {
