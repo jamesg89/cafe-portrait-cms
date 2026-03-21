@@ -70,6 +70,40 @@ const MEDIA_PICKER_PATCH = `
 <\/script>
 `
 
+// Branding overrides injected into admin pages.
+// Replaces the SonicJS wordmark SVG with the Cafe Portrait logo and swaps the
+// favicon. The SVG is identified by its unique viewBox attribute so this is
+// resilient to markup changes around it.
+const BRANDING_PATCH = `
+<style>
+  /* Hide the SonicJS wordmark SVG */
+  svg[viewBox="380 1300 2250 400"] { display: none !important; }
+</style>
+<script>
+(function () {
+  function injectLogo() {
+    var svgs = document.querySelectorAll('svg[viewBox="380 1300 2250 400"]');
+    svgs.forEach(function (svg) {
+      if (svg.dataset.branded) return;
+      svg.dataset.branded = '1';
+      var img = document.createElement('img');
+      img.src = '/files/uploads/bbdb35ff-5596-4f7d-bedc-06141174004b.png';
+      img.alt = 'Cafe Portrait';
+      img.style.cssText = 'height:2rem;width:auto;display:block;';
+      svg.parentNode.insertBefore(img, svg);
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', injectLogo);
+  } else {
+    injectLogo();
+  }
+})();
+<\/script>
+`
+
+const CAFE_FAVICON = '/files/uploads/f4e8e997-1662-466e-9e00-ad35be4a8eb8.png'
+
 async function injectAdminPatch(c: Context, next: () => Promise<void>) {
   await next()
   if (!c.req.path.startsWith('/admin')) return
@@ -79,9 +113,18 @@ async function injectAdminPatch(c: Context, next: () => Promise<void>) {
   const body = await c.res.text()
   const headers = new Headers(c.res.headers)
   headers.delete('content-length')
-  const out = body.includes('</body>')
-    ? body.replace('</body>', MEDIA_PICKER_PATCH + '</body>')
-    : body
+  let out = body
+  // Swap favicon
+  out = out.replace(
+    '<link rel="icon" type="image/svg+xml" href="/favicon.svg">',
+    `<link rel="icon" type="image/png" href="${CAFE_FAVICON}">`
+  )
+  // Rename browser tab titles
+  out = out.replace(/ - SonicJS AI Admin/g, ' - Cafe Portrait CMS')
+  // Inject media-picker fix and logo branding before </body>
+  if (out.includes('</body>')) {
+    out = out.replace('</body>', MEDIA_PICKER_PATCH + BRANDING_PATCH + '</body>')
+  }
   c.res = new Response(out, { status: c.res.status, headers })
 }
 
