@@ -21,8 +21,18 @@ export default {
       footerShortAddress: { type: 'string',   title: 'Footer Short Address' },
       footerPhone:        { type: 'string',   title: 'Footer Phone' },
       footerEmail:        { type: 'string',   title: 'Footer Email' },
-      footerDays:         { type: 'string',   title: 'Footer Days' },
-      footerHours:        { type: 'string',   title: 'Footer Hours' },
+      footerHours: {
+        type: 'array',
+        title: 'Footer Hours',
+        items: {
+          type: 'object',
+          title: 'Hours Row',
+          properties: {
+            days:  { type: 'string', title: 'Days  (e.g. "Monday – Friday")' },
+            hours: { type: 'string', title: 'Hours (e.g. "8:00 AM – 6:00 PM")' },
+          },
+        },
+      },
       footerHoursNote:    { type: 'string',   title: 'Footer Hours Note' },
       footerMapsUrl:      { type: 'url',      title: 'Footer Maps URL' },
       footerFacebookUrl:  { type: 'url',      title: 'Footer Facebook URL' },
