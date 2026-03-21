@@ -6,6 +6,7 @@
 
 import { createSonicJSApp, registerCollections } from '@sonicjs-cms/core'
 import type { SonicJSConfig } from '@sonicjs-cms/core'
+import type { Context } from 'hono'
 
 import configCollection from './collections/config.collection'
 import homePageCollection from './collections/home-page.collection'
@@ -29,6 +30,57 @@ registerCollections([
   galleryCollection,
 ])
 
+// Patch script injected into admin pages.
+// Fixes a SonicJS bug where selectMediaFile sets hiddenInput.value directly
+// without dispatching a DOM event, so structured-array fields (gallery images,
+// etc.) never re-serialize after a media pick and the selection is lost on save.
+const MEDIA_PICKER_PATCH = `
+<script>
+(function () {
+  var _patchedFieldId = null;
+  function patch() {
+    var origOpen = window.openMediaSelector;
+    if (origOpen && !origOpen.__patched) {
+      window.openMediaSelector = function (fieldId) {
+        _patchedFieldId = fieldId;
+        return origOpen.call(this, fieldId);
+      };
+      window.openMediaSelector.__patched = true;
+    }
+    var origSelect = window.selectMediaFile;
+    if (origSelect && !origSelect.__patched) {
+      window.selectMediaFile = function (mediaId, mediaUrl, filename) {
+        origSelect.call(this, mediaId, mediaUrl, filename);
+        if (_patchedFieldId) {
+          var el = document.getElementById(_patchedFieldId);
+          if (el) el.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+      };
+      window.selectMediaFile.__patched = true;
+    }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', patch);
+  } else {
+    patch();
+  }
+})();
+<\/script>
+`
+
+async function injectAdminPatch(c: Context, next: () => Promise<void>) {
+  await next()
+  if (!c.req.path.startsWith('/admin')) return
+  const ct = c.res.headers.get('content-type') ?? ''
+  if (!ct.includes('text/html')) return
+  const body = await c.res.text()
+  if (!body.includes('</body>')) return
+  const patched = body.replace('</body>', MEDIA_PICKER_PATCH + '</body>')
+  const headers = new Headers(c.res.headers)
+  headers.delete('content-length')
+  c.res = new Response(patched, { status: c.res.status, headers })
+}
+
 const config: SonicJSConfig = {
   collections: {
     autoSync: true
@@ -36,6 +88,9 @@ const config: SonicJSConfig = {
   plugins: {
     directory: './src/plugins',
     autoLoad: false
+  },
+  middleware: {
+    afterAuth: [injectAdminPatch]
   }
 }
 
