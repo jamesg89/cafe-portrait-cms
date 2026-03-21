@@ -18,7 +18,6 @@ export default {
           title: 'Image',
           properties: {
             image: { type: 'media', title: 'Image' },
-            label: { type: 'string', title: 'Label (hover caption)' },
           },
         },
       },
@@ -30,7 +29,6 @@ export default {
           title: 'Image',
           properties: {
             image: { type: 'media', title: 'Image' },
-            label: { type: 'string', title: 'Label (hover caption)' },
           },
         },
       },

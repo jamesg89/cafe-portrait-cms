@@ -17,6 +17,7 @@ import giftCardsPageCollection from './collections/gift-cards-page.collection'
 import contactPageCollection from './collections/contact-page.collection'
 import ourStoryPageCollection from './collections/our-story-page.collection'
 import galleryCollection from './collections/gallery.collection'
+import galleryItemsCollection from './collections/gallery-items.collection'
 
 registerCollections([
   configCollection,
@@ -28,6 +29,7 @@ registerCollections([
   contactPageCollection,
   ourStoryPageCollection,
   galleryCollection,
+  galleryItemsCollection,
 ])
 
 // Patch script injected into admin pages.
