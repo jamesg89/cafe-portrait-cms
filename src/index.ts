@@ -32,6 +32,30 @@ registerCollections([
   galleryItemsCollection,
 ])
 
+// Middleware that patches the D1 database binding so that undefined values are
+// coerced to null before reaching D1's .bind() call.  Cloudflare D1 rejects
+// the JavaScript value `undefined` with D1_TYPE_ERROR, but it accepts `null`
+// (SQL NULL) just fine.  SonicJS core passes `undefined` for optional system
+// fields (e.g. slug, status) that aren't included in every form submission,
+// which is the root cause of "Error creating content: D1_TYPE_ERROR".
+async function patchD1Undefined(c: Context, next: () => Promise<void>) {
+  const env = c.env as Record<string, unknown>
+  const db = env?.DB as { prepare?: (q: string) => { bind?: (...a: unknown[]) => unknown } } | undefined
+  if (db && typeof db.prepare === 'function') {
+    const origPrepare = db.prepare.bind(db)
+    db.prepare = (query: string) => {
+      const stmt = origPrepare(query)
+      if (stmt && typeof stmt.bind === 'function') {
+        const origBind = stmt.bind.bind(stmt)
+        stmt.bind = (...values: unknown[]) =>
+          origBind(...values.map((v) => (v === undefined ? null : v)))
+      }
+      return stmt
+    }
+  }
+  await next()
+}
+
 // Patch script injected into admin pages.
 // Fixes a SonicJS bug where selectMediaFile sets hiddenInput.value directly
 // without dispatching a DOM event, so structured-array fields (gallery images,
@@ -137,7 +161,7 @@ const config: SonicJSConfig = {
     autoLoad: false
   },
   middleware: {
-    afterAuth: [injectAdminPatch]
+    afterAuth: [patchD1Undefined, injectAdminPatch]
   }
 }
 
