@@ -21,6 +21,8 @@ export default {
       eventType2Description:   { type: 'textarea', title: 'Event Type 2 Description' },
       eventType3Title:         { type: 'string',   title: 'Event Type 3 Title' },
       eventType3Description:   { type: 'textarea', title: 'Event Type 3 Description' },
+      eventType4Title:         { type: 'string',   title: 'Event Type 4 Title' },
+      eventType4Description:   { type: 'textarea', title: 'Event Type 4 Description' },
       offeringsScriptHeading:  { type: 'string',   title: 'Offerings Script Heading' },
       offeringsHeading:        { type: 'string',   title: 'Offerings Heading' },
       offering1Label:          { type: 'string',   title: 'Offering 1 Label' },

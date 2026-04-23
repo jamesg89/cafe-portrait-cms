@@ -14,6 +14,7 @@ import menuPageCollection from './collections/menu-page.collection'
 import menuDataCollection from './collections/menu-data.collection'
 import eventsPageCollection from './collections/events-page.collection'
 import giftCardsPageCollection from './collections/gift-cards-page.collection'
+import contactInfoCollection from './collections/contact-info.collection'
 import contactPageCollection from './collections/contact-page.collection'
 import ourStoryPageCollection from './collections/our-story-page.collection'
 import galleryCollection from './collections/gallery.collection'
@@ -26,6 +27,7 @@ registerCollections([
   menuDataCollection,
   eventsPageCollection,
   giftCardsPageCollection,
+  contactInfoCollection,
   contactPageCollection,
   ourStoryPageCollection,
   galleryCollection,
