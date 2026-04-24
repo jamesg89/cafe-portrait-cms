@@ -17,7 +17,7 @@ export default {
       hoursNote:    { type: 'string', title: 'Hours Note (e.g. Brunch served all day)' },
       phone:        { type: 'string', title: 'Phone Number' },
       email:        { type: 'string', title: 'Email Address' },
-      mapsUrl:      { type: 'url',    title: 'Google Maps URL' },
+      mapsUrl:      { type: 'string', format: 'url', title: 'Google Maps URL' },
     },
   },
 

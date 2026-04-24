@@ -22,9 +22,9 @@ export default {
       footerPhone:        { type: 'string',   title: 'Footer Phone' },
       footerEmail:        { type: 'string',   title: 'Footer Email' },
       contactMapImage:    { type: 'media',    title: 'Contact Map Image (screenshot / static map, min 1200×640px landscape)' },
-      footerMapsUrl:      { type: 'url',      title: 'Footer Maps URL' },
-      footerFacebookUrl:  { type: 'url',      title: 'Footer Facebook URL' },
-      footerInstagramUrl: { type: 'url',      title: 'Footer Instagram URL' },
+      footerMapsUrl:      { type: 'string', format: 'url', title: 'Footer Maps URL' },
+      footerFacebookUrl:  { type: 'string', format: 'url', title: 'Footer Facebook URL' },
+      footerInstagramUrl: { type: 'string', format: 'url', title: 'Footer Instagram URL' },
     },
   },
 
