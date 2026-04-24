@@ -34,6 +34,33 @@ registerCollections([
   galleryItemsCollection,
 ])
 
+// Logs failing API write requests so errors are visible in `wrangler tail` and
+// the Cloudflare dashboard.  Clones request/response bodies before downstream
+// code consumes them to avoid interfering with normal request handling.
+async function logApiErrors(c: Context, next: () => Promise<void>) {
+  const { method } = c.req
+  const path = c.req.path
+  const isWrite = (method === 'POST' || method === 'PUT' || method === 'PATCH') && path.startsWith('/api/')
+
+  let reqBody: string | undefined
+  if (isWrite) {
+    try { reqBody = await c.req.raw.clone().text() } catch { /* ignore */ }
+  }
+
+  await next()
+
+  if (!path.startsWith('/api/')) return
+
+  const { status } = c.res
+  let resBody: string | undefined
+  try { resBody = await c.res.clone().text() } catch { /* ignore */ }
+
+  const isError = status >= 400 || (resBody && (resBody.includes('Failed to') || resBody.includes('"error"')))
+  if (isError) {
+    console.error('[CMS API Error]', method, path, '| status:', status, '| req:', reqBody, '| res:', resBody)
+  }
+}
+
 // Middleware that patches the D1 database binding so that undefined values are
 // coerced to null before reaching D1's .bind() call.  Cloudflare D1 rejects
 // the JavaScript value `undefined` with D1_TYPE_ERROR, but it accepts `null`
@@ -42,15 +69,30 @@ registerCollections([
 // which is the root cause of "Error creating content: D1_TYPE_ERROR".
 async function patchD1Undefined(c: Context, next: () => Promise<void>) {
   const env = c.env as Record<string, unknown>
-  const db = env?.DB as { prepare?: (q: string) => { bind?: (...a: unknown[]) => unknown } } | undefined
+  const db = env?.DB as { prepare?: (q: string) => { bind?: (...a: unknown[]) => { run?: () => Promise<unknown> } } } | undefined
   if (db && typeof db.prepare === 'function') {
     const origPrepare = db.prepare.bind(db)
     db.prepare = (query: string) => {
       const stmt = origPrepare(query)
       if (stmt && typeof stmt.bind === 'function') {
         const origBind = stmt.bind.bind(stmt)
-        stmt.bind = (...values: unknown[]) =>
-          origBind(...values.map((v) => (v === undefined ? null : v)))
+        stmt.bind = (...values: unknown[]) => {
+          const coerced = values.map((v) => (v === undefined ? null : v))
+          const bound = origBind(...coerced) as Record<string, unknown>
+          // Wrap .run() to log D1 write failures with the full SQL and values
+          if (bound && typeof bound.run === 'function') {
+            const origRun = (bound.run as () => Promise<unknown>).bind(bound)
+            bound.run = async () => {
+              try {
+                return await origRun()
+              } catch (err) {
+                console.error('[D1 Write Error] SQL:', query, '| values:', JSON.stringify(coerced), '| error:', err)
+                throw err
+              }
+            }
+          }
+          return bound
+        }
       }
       return stmt
     }
@@ -163,7 +205,7 @@ const config: SonicJSConfig = {
     autoLoad: false
   },
   middleware: {
-    afterAuth: [patchD1Undefined, injectAdminPatch]
+    afterAuth: [logApiErrors, patchD1Undefined, injectAdminPatch]
   }
 }
 
