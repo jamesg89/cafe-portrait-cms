@@ -10,6 +10,7 @@ export default {
     type: 'object',
     properties: {
       title:                     { type: 'string',   title: 'Title' },
+      slug:                      { type: 'string',   title: 'Slug' },
       pageTitle:                 { type: 'string',   title: 'Page Title' },
       heroSubtitle:              { type: 'string',   title: 'Hero Subtitle' },
       heroCtaText:               { type: 'string',   title: 'Hero CTA Button Text' },

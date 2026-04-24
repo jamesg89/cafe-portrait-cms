@@ -10,6 +10,7 @@ export default {
     type: 'object',
     properties: {
       title: { type: 'string', title: 'Gallery Title' },
+      slug:  { type: 'string', title: 'Slug' },
       homeImages: {
         type: 'array',
         title: 'Home Page Images',

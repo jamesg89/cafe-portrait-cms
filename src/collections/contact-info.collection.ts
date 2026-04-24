@@ -9,6 +9,8 @@ export default {
   schema: {
     type: 'object',
     properties: {
+      title:        { type: 'string', title: 'Title' },
+      slug:         { type: 'string', title: 'Slug' },
       addressLine1: { type: 'string', title: 'Address Line 1' },
       addressLine2: { type: 'string', title: 'Address Line 2' },
       shortAddress: { type: 'string', title: 'Short Address (footer / map pin)' },

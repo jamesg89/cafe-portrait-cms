@@ -10,6 +10,7 @@ export default {
     type: 'object',
     properties: {
       title: { type: 'string', title: 'Title', required: true },
+      slug:  { type: 'string', title: 'Slug' },
       image: { type: 'media', title: 'Image' },
       page: {
         type: 'select',

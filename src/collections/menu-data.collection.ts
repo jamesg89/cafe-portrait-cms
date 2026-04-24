@@ -34,6 +34,7 @@ export default {
     type: 'object',
     properties: {
       title: { type: 'string', title: 'Title' },
+      slug:  { type: 'string', title: 'Slug' },
       ...categoryProperties,
     },
   },

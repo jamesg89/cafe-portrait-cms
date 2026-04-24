@@ -10,6 +10,7 @@ export default {
     type: 'object',
     properties: {
       title:              { type: 'string',   title: 'Title' },
+      slug:               { type: 'string',   title: 'Slug' },
       logoImage:          { type: 'media',    title: 'Logo Image (overrides text logo)' },
       logoTextTop:        { type: 'string',   title: 'Logo Text Top' },
       logoTextBottom:     { type: 'string',   title: 'Logo Text Bottom' },
